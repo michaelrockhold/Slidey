@@ -24,6 +24,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *lowValueImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *arrowMaskImageView;
 
+@property (nonatomic) float arrowOffset;
 
 // Set as hidden via storyboard.  Make visible to aid with debugging.
 @property (weak, nonatomic) IBOutlet UILabel *actualTargetValueLabel;
@@ -62,6 +63,8 @@
     self.unitsLabel.hidden = YES;
     self.lowValueImageView.hidden = NO;
 
+    self.arrowOffset = self.arrowMaskImageView.frame.size.height;
+
     [self.metricsRecorder startActivity:[self metricsActivityIdentifier]];
 }
 
@@ -70,14 +73,14 @@
 
     [super viewDidAppear:animated];
     
-    [self.sliderScrollView setContentOffset:CGPointMake(-self.sliderScrollView.frame.size.width / 2 + self.arrowMaskImageView.frame.size.height, 0)];
+    [self.sliderScrollView setContentOffset:CGPointMake(-self.sliderScrollView.frame.size.width / 2 + self.arrowOffset, 0)];
 }
 
 
 -(void)viewDidLayoutSubviews {
     
-    self.sliderScrollView.contentSize = CGSizeMake(self.sliderContentView.frame.size.width - self.arrowMaskImageView.frame.size.height * 2, self.sliderContentView.frame.size.height);
-    self.sliderScrollView.contentInset = UIEdgeInsetsMake(0.0, self.sliderScrollView.frame.size.width / 2 - self.arrowMaskImageView.frame.size.height, 0.0, self.sliderScrollView.frame.size.width / 2 + self.arrowMaskImageView.frame.size.height);
+    self.sliderScrollView.contentSize = CGSizeMake(self.sliderContentView.frame.size.width - self.arrowOffset * 2, self.sliderContentView.frame.size.height);
+    self.sliderScrollView.contentInset = UIEdgeInsetsMake(0.0, self.sliderScrollView.frame.size.width / 2 - self.arrowOffset, 0.0, self.sliderScrollView.frame.size.width / 2 + self.arrowOffset);
 }
 
 - (NSString *)metricsActivityIdentifier {
@@ -137,8 +140,9 @@
 
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    
-    if (self.sliderScrollView.contentOffset.x - self.arrowMaskImageView.frame.size.height * 2 <= -self.sliderScrollView.frame.size.width / 2) {
+
+    NSLog(@"contentOffset.x %f", self.sliderScrollView.contentOffset.x);
+    if (self.sliderScrollView.contentOffset.x - self.arrowOffset * 2 <= -self.sliderScrollView.frame.size.width / 2) {
         
         self.targetValueLabel.hidden = YES;
         self.unitsLabel.hidden = YES;
