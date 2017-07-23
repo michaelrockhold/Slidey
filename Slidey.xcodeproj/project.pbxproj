@@ -33,6 +33,7 @@
 		174608D11F217B5C006E0F92 /* MontserratAlternates-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 174608BF1F217B5C006E0F92 /* MontserratAlternates-SemiBold.otf */; };
 		174608D21F217B5C006E0F92 /* MontserratAlternates-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 174608C01F217B5C006E0F92 /* MontserratAlternates-Thin.otf */; };
 		174608D51F21E6DD006E0F92 /* thicknessColorRange.png in Resources */ = {isa = PBXBuildFile; fileRef = 174608D41F21E6DD006E0F92 /* thicknessColorRange.png */; };
+		175147C01F252A16000BF02D /* Next Panel.png in Resources */ = {isa = PBXBuildFile; fileRef = 175147BF1F252A16000BF02D /* Next Panel.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -66,6 +67,7 @@
 		174608BF1F217B5C006E0F92 /* MontserratAlternates-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "MontserratAlternates-SemiBold.otf"; path = "Montserrat/MontserratAlternates-SemiBold.otf"; sourceTree = "<group>"; };
 		174608C01F217B5C006E0F92 /* MontserratAlternates-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "MontserratAlternates-Thin.otf"; path = "Montserrat/MontserratAlternates-Thin.otf"; sourceTree = "<group>"; };
 		174608D41F21E6DD006E0F92 /* thicknessColorRange.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thicknessColorRange.png; sourceTree = "<group>"; };
+		175147BF1F252A16000BF02D /* Next Panel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Next Panel.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +111,7 @@
 				1746088F1F205901006E0F92 /* Info.plist */,
 				1746089D1F205FFA006E0F92 /* Slidey-Bridging-Header.h */,
 				174608AA1F215FA0006E0F92 /* Assets.xcassets */,
+				175147BF1F252A16000BF02D /* Next Panel.png */,
 				174608D31F217B66006E0F92 /* Fonts */,
 			);
 			path = Slidey;
@@ -208,6 +211,7 @@
 				174608CF1F217B5C006E0F92 /* MontserratAlternates-Medium.otf in Resources */,
 				174608CB1F217B5C006E0F92 /* MontserratAlternates-Bold.otf in Resources */,
 				174608CE1F217B5C006E0F92 /* MontserratAlternates-Light.otf in Resources */,
+				175147C01F252A16000BF02D /* Next Panel.png in Resources */,
 				174608D21F217B5C006E0F92 /* MontserratAlternates-Thin.otf in Resources */,
 				174608D01F217B5C006E0F92 /* MontserratAlternates-Regular.otf in Resources */,
 				1746088E1F205901006E0F92 /* LaunchScreen.storyboard in Resources */,
