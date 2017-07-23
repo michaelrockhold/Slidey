@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -69,46 +70,59 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="481"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="hGC-kq-xUg">
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="iIV-3B-jxp">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="481"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" text="Quis autem vel eum iure reprehenderit qui in ea?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Agm-iM-ULG" userLabel="title-label">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="0.0"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="29"/>
-                                        <color key="textColor" red="0.20392156859999999" green="0.20392156859999999" blue="0.20392156859999999" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                        <variation key="heightClass=regular-widthClass=regular">
-                                            <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="36"/>
-                                        </variation>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zwq-AW-XMb" userLabel="prompt-label">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="113"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <string key="text">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae.</string>
-                                        <fontDescription key="fontDescription" name="Montserrat-Light" family="Montserrat" pointSize="18"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KvA-KR-h4P" userLabel="watch-video-view">
-                                        <rect key="frame" x="0.0" y="113" width="320" height="202"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Laf-Oe-XcD" userLabel="Title">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="153.5"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z2u-On-Iih">
-                                                <rect key="frame" x="116" y="0.0" width="87" height="30"/>
-                                                <state key="normal" title="Watch Video">
-                                                    <color key="titleColor" red="1" green="0.58012623600000002" blue="0.012866315830000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </state>
-                                            </button>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="Quis autem vel eum iure reprehenderit qui in ea?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Agm-iM-ULG" userLabel="title-label">
+                                                <rect key="frame" x="32" y="0.0" width="256" height="153.5"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="29"/>
+                                                <color key="textColor" red="0.20392156859999999" green="0.20392156859999999" blue="0.20392156859999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                                <variation key="heightClass=regular-widthClass=regular">
+                                                    <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="36"/>
+                                                </variation>
+                                            </label>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstItem="Z2u-On-Iih" firstAttribute="top" secondItem="KvA-KR-h4P" secondAttribute="top" id="223-EF-kwP"/>
-                                            <constraint firstItem="Z2u-On-Iih" firstAttribute="centerX" secondItem="KvA-KR-h4P" secondAttribute="centerX" id="OAD-ol-uY7"/>
-                                            <constraint firstAttribute="bottom" secondItem="Z2u-On-Iih" secondAttribute="bottom" priority="250" constant="172" id="umW-JN-Toa"/>
+                                            <constraint firstItem="Agm-iM-ULG" firstAttribute="centerX" secondItem="Laf-Oe-XcD" secondAttribute="centerX" id="K6p-UG-Wrj"/>
+                                            <constraint firstItem="Agm-iM-ULG" firstAttribute="height" secondItem="Laf-Oe-XcD" secondAttribute="height" id="YpY-uF-xT4"/>
+                                            <constraint firstItem="Agm-iM-ULG" firstAttribute="top" secondItem="Laf-Oe-XcD" secondAttribute="top" id="aLt-za-XAW"/>
+                                            <constraint firstItem="Agm-iM-ULG" firstAttribute="width" secondItem="Laf-Oe-XcD" secondAttribute="width" multiplier="0.8" id="tka-Rx-C7I"/>
                                         </constraints>
                                     </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LyW-IZ-QGq" userLabel="Prompt">
+                                        <rect key="frame" x="0.0" y="153.5" width="320" height="166.5"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="751" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zwq-AW-XMb" userLabel="prompt-label">
+                                                <rect key="frame" x="16" y="0.0" width="288" height="166.5"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                <string key="text">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae.</string>
+                                                <fontDescription key="fontDescription" name="Montserrat-Light" family="Montserrat" pointSize="18"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstItem="zwq-AW-XMb" firstAttribute="top" secondItem="LyW-IZ-QGq" secondAttribute="top" id="GlV-IS-vPU"/>
+                                            <constraint firstItem="zwq-AW-XMb" firstAttribute="width" secondItem="LyW-IZ-QGq" secondAttribute="width" multiplier="0.9" id="JFB-SI-5bc"/>
+                                            <constraint firstItem="zwq-AW-XMb" firstAttribute="height" secondItem="LyW-IZ-QGq" secondAttribute="height" id="P5l-dv-auM"/>
+                                            <constraint firstItem="zwq-AW-XMb" firstAttribute="centerX" secondItem="LyW-IZ-QGq" secondAttribute="centerX" id="dbh-bO-eeb"/>
+                                        </constraints>
+                                    </view>
+                                    <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="550" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z2u-On-Iih">
+                                        <rect key="frame" x="0.0" y="320" width="320" height="5"/>
+                                        <state key="normal" title="Watch Video">
+                                            <color key="titleColor" red="1" green="0.58012623600000002" blue="0.012866315830000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                    </button>
                                     <view contentMode="scaleToFill" verticalHuggingPriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="Ihn-hz-bJA" userLabel="target info view">
-                                        <rect key="frame" x="0.0" y="315" width="320" height="106"/>
+                                        <rect key="frame" x="0.0" y="325" width="320" height="106"/>
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lowTemperatureIcon" translatesAutoresizingMaskIntoConstraints="NO" id="bGE-KR-cmR" userLabel="low-value-imageView">
                                                 <rect key="frame" x="124" y="0.0" width="73" height="86"/>
@@ -122,7 +136,7 @@
                                                 </constraints>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2⅝" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kip-yS-hii" userLabel="target-value-label">
-                                                <rect key="frame" x="106.5" y="4" width="108.5" height="98"/>
+                                                <rect key="frame" x="106.5" y="4.5" width="108.5" height="98"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <fontDescription key="fontDescription" name="Montserrat-ExtraLight" family="Montserrat" pointSize="74"/>
                                                 <color key="textColor" red="1" green="0.027240439169999998" blue="0.0093198081210000006" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -132,7 +146,7 @@
                                                 </variation>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dg1-up-241" userLabel="target-value-units-label">
-                                                <rect key="frame" x="223" y="62" width="40.5" height="20"/>
+                                                <rect key="frame" x="223" y="62.5" width="40.5" height="20"/>
                                                 <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="15"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -150,29 +164,23 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" verticalHuggingPriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="lx7-Q1-fUf" userLabel="slider view">
-                                        <rect key="frame" x="0.0" y="421" width="320" height="60"/>
+                                        <rect key="frame" x="0.0" y="431" width="320" height="50"/>
                                         <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tempSliderArrowMask" translatesAutoresizingMaskIntoConstraints="NO" id="Dvf-Z0-n4B" userLabel="slider-arrow-mask-imageView">
-                                                <rect key="frame" x="0.0" y="0.0" width="320" height="14"/>
-                                                <color key="backgroundColor" red="0.40000000600000002" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="25" id="IXD-Fy-Wyh">
-                                                        <variation key="heightClass=regular-widthClass=compact" constant="14"/>
-                                                    </constraint>
-                                                </constraints>
-                                            </imageView>
-                                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" bounces="NO" alwaysBounceHorizontal="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w2e-CB-MQD" userLabel="slider-scrollView">
-                                                <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
+                                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" alwaysBounceHorizontal="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w2e-CB-MQD" userLabel="slider-scrollView">
+                                                <rect key="frame" x="0.0" y="0.0" width="320" height="70"/>
                                                 <subviews>
-                                                    <view contentMode="scaleToFill" verticalHuggingPriority="1000" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iyF-Og-842" userLabel="Content View">
-                                                        <rect key="frame" x="0.0" y="0.0" width="3527" height="80"/>
+                                                    <view contentMode="scaleToFill" verticalHuggingPriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="iyF-Og-842" userLabel="Content View">
+                                                        <rect key="frame" x="0.0" y="0.0" width="3527" height="70"/>
                                                         <subviews>
-                                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="temperatureSliderC" translatesAutoresizingMaskIntoConstraints="NO" id="aEN-31-Sds" userLabel="slider-background-imageView">
-                                                                <rect key="frame" x="0.0" y="0.0" width="500" height="155"/>
+                                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="temperatureSliderF" translatesAutoresizingMaskIntoConstraints="NO" id="aEN-31-Sds" userLabel="slider-background-imageView">
+                                                                <rect key="frame" x="0.0" y="0.0" width="500" height="2"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                             </imageView>
                                                         </subviews>
                                                         <color key="backgroundColor" red="1" green="0.91034438750000002" blue="0.92978365490000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="3527" id="Hr5-s7-hah"/>
+                                                        </constraints>
                                                     </view>
                                                 </subviews>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -180,12 +188,22 @@
                                                     <constraint firstItem="iyF-Og-842" firstAttribute="top" secondItem="w2e-CB-MQD" secondAttribute="top" id="4sD-09-xQC"/>
                                                     <constraint firstItem="iyF-Og-842" firstAttribute="trailing" secondItem="w2e-CB-MQD" secondAttribute="trailing" id="RN9-bn-MXB"/>
                                                     <constraint firstItem="iyF-Og-842" firstAttribute="bottom" secondItem="w2e-CB-MQD" secondAttribute="bottom" id="dAC-eA-Bjs"/>
+                                                    <constraint firstItem="iyF-Og-842" firstAttribute="centerY" secondItem="w2e-CB-MQD" secondAttribute="centerY" id="tLQ-Qh-kjd"/>
                                                     <constraint firstAttribute="leading" secondItem="iyF-Og-842" secondAttribute="leading" id="yFS-sB-SZi"/>
                                                 </constraints>
                                                 <connections>
                                                     <outlet property="delegate" destination="T2y-9H-mLZ" id="g08-QM-0rl"/>
                                                 </connections>
                                             </scrollView>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tempSliderArrowMask" translatesAutoresizingMaskIntoConstraints="NO" id="Dvf-Z0-n4B" userLabel="slider-arrow-mask-imageView">
+                                                <rect key="frame" x="0.0" y="0.0" width="320" height="14"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="25" id="IXD-Fy-Wyh">
+                                                        <variation key="heightClass=regular-widthClass=compact" constant="14"/>
+                                                    </constraint>
+                                                </constraints>
+                                            </imageView>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -193,22 +211,24 @@
                                             <constraint firstItem="Dvf-Z0-n4B" firstAttribute="top" secondItem="lx7-Q1-fUf" secondAttribute="top" id="CHR-1w-jh2"/>
                                             <constraint firstItem="w2e-CB-MQD" firstAttribute="top" secondItem="lx7-Q1-fUf" secondAttribute="top" id="HaN-vm-mHu"/>
                                             <constraint firstItem="Dvf-Z0-n4B" firstAttribute="trailing" secondItem="lx7-Q1-fUf" secondAttribute="trailing" id="Wux-Ub-kJ1"/>
+                                            <constraint firstAttribute="bottom" secondItem="w2e-CB-MQD" secondAttribute="bottom" constant="-20" id="g8Q-Pc-qrv"/>
                                             <constraint firstItem="w2e-CB-MQD" firstAttribute="leading" secondItem="lx7-Q1-fUf" secondAttribute="leading" id="kAy-2d-Xfp"/>
                                             <constraint firstItem="Dvf-Z0-n4B" firstAttribute="leading" secondItem="lx7-Q1-fUf" secondAttribute="leading" id="xnI-Nr-c4H"/>
                                         </constraints>
                                     </view>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="Ihn-hz-bJA" firstAttribute="top" secondItem="hGC-kq-xUg" secondAttribute="top" constant="315" id="x6p-yF-UMv"/>
+                                    <constraint firstItem="Laf-Oe-XcD" firstAttribute="centerX" secondItem="iIV-3B-jxp" secondAttribute="centerX" id="8Uf-KB-lq6"/>
+                                    <constraint firstItem="Z2u-On-Iih" firstAttribute="centerX" secondItem="iIV-3B-jxp" secondAttribute="centerX" id="oiH-cB-Fjp"/>
                                 </constraints>
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="hGC-kq-xUg" firstAttribute="leading" secondItem="v6t-D5-MxX" secondAttribute="leading" id="Dv0-99-vr9"/>
-                            <constraint firstAttribute="trailing" secondItem="hGC-kq-xUg" secondAttribute="trailing" id="aYb-ZD-84k"/>
-                            <constraint firstItem="hGC-kq-xUg" firstAttribute="top" secondItem="aC9-W5-bZn" secondAttribute="bottom" id="gje-t1-MN2"/>
-                            <constraint firstItem="Nbu-aL-9Ti" firstAttribute="top" secondItem="hGC-kq-xUg" secondAttribute="bottom" id="vK3-ID-0SH"/>
+                            <constraint firstAttribute="trailing" secondItem="iIV-3B-jxp" secondAttribute="trailing" id="1Oi-f3-S64"/>
+                            <constraint firstItem="iIV-3B-jxp" firstAttribute="top" secondItem="aC9-W5-bZn" secondAttribute="bottom" id="Ovn-y4-Saw"/>
+                            <constraint firstItem="iIV-3B-jxp" firstAttribute="leading" secondItem="v6t-D5-MxX" secondAttribute="leading" id="eAV-Vi-LpA"/>
+                            <constraint firstItem="Nbu-aL-9Ti" firstAttribute="top" secondItem="iIV-3B-jxp" secondAttribute="bottom" id="qlJ-u3-kIb"/>
                         </constraints>
                     </view>
                     <connections>
@@ -232,6 +252,6 @@
     <resources>
         <image name="lowTemperatureIcon" width="79" height="91"/>
         <image name="tempSliderArrowMask" width="414" height="14"/>
-        <image name="temperatureSliderC" width="3527" height="155"/>
+        <image name="temperatureSliderF" width="6385" height="155"/>
     </resources>
 </document>
