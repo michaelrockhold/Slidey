@@ -113,7 +113,7 @@ class ViewController: UIViewController, HSCSliderValueHandler, HSCSliderValuePri
                         slidey.units = "inches"
                         slidey.minValue = 0.25
                         slidey.maxValue = 4.0
-                        slidey.sliderImage = #imageLiteral(resourceName: "thicknessSliderIN")
+                        slidey.sliderImage = #imageLiteral(resourceName: "numberline")
 
                     case .metric:
                         slidey.units = "cm"
