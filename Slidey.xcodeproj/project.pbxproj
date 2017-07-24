@@ -34,6 +34,7 @@
 		174608D21F217B5C006E0F92 /* MontserratAlternates-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 174608C01F217B5C006E0F92 /* MontserratAlternates-Thin.otf */; };
 		174608D51F21E6DD006E0F92 /* thicknessColorRange.png in Resources */ = {isa = PBXBuildFile; fileRef = 174608D41F21E6DD006E0F92 /* thicknessColorRange.png */; };
 		175147C01F252A16000BF02D /* Next Panel.png in Resources */ = {isa = PBXBuildFile; fileRef = 175147BF1F252A16000BF02D /* Next Panel.png */; };
+		175147C21F258121000BF02D /* Calculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175147C11F258121000BF02D /* Calculator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -68,6 +69,7 @@
 		174608C01F217B5C006E0F92 /* MontserratAlternates-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "MontserratAlternates-Thin.otf"; path = "Montserrat/MontserratAlternates-Thin.otf"; sourceTree = "<group>"; };
 		174608D41F21E6DD006E0F92 /* thicknessColorRange.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thicknessColorRange.png; sourceTree = "<group>"; };
 		175147BF1F252A16000BF02D /* Next Panel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Next Panel.png"; sourceTree = "<group>"; };
+		175147C11F258121000BF02D /* Calculator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Calculator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +106,7 @@
 				174608851F205901006E0F92 /* ViewController.swift */,
 				1746089E1F205FFA006E0F92 /* SlideyViewController.h */,
 				1746089F1F205FFA006E0F92 /* SlideyViewController.m */,
+				175147C11F258121000BF02D /* Calculator.swift */,
 				174608871F205901006E0F92 /* Main.storyboard */,
 				174608A61F214FF3006E0F92 /* temperatureColorRange.png */,
 				174608D41F21E6DD006E0F92 /* thicknessColorRange.png */,
@@ -238,6 +241,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				174608861F205901006E0F92 /* ViewController.swift in Sources */,
+				175147C21F258121000BF02D /* Calculator.swift in Sources */,
 				174608A01F205FFA006E0F92 /* SlideyViewController.m in Sources */,
 				174608841F205901006E0F92 /* AppDelegate.swift in Sources */,
 			);

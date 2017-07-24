@@ -7,8 +7,11 @@
 
 #import "Slidey-Bridging-Header.h"
 #import "SlideyViewController.h"
+#import "Slidey-Swift.h"
 
 @interface SlideyViewController () <UIScrollViewDelegate>
+
+@property (nonatomic, strong) Calculator* _Nullable calculator;
 
 @property (nonatomic, weak) IBOutlet UIImageView *sliderImageView;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *sliderImageWidthConstraint;
@@ -57,8 +60,6 @@
     self.sliderImageView.image = self.sliderImage;
     self.sliderImageWidthConstraint.constant = self.sliderImageView.image.size.width;
 
-    // [self.dataWarehouse recordUITrackingEvent:[[UITrackingData alloc] initWithType:UITrackingEventType_VIEW_MANUAL_TEMP]];
-
     self.targetValueLabel.hidden = YES;
     self.unitsLabel.hidden = YES;
     self.lowValueImageView.hidden = NO;
@@ -66,22 +67,32 @@
     self.arrowOffset = self.arrowMaskImageView.frame.size.height;
 
     [self.metricsRecorder startActivity:[self metricsActivityIdentifier]];
+    // [self.dataWarehouse recordUITrackingEvent:[[UITrackingData alloc] initWithType:UITrackingEventType_VIEW_MANUAL_TEMP]];
 }
 
 
 -(void)viewDidAppear:(BOOL)animated {
 
     [super viewDidAppear:animated];
-    
+
+    self.sliderScrollView.contentSize = CGSizeMake(self.sliderContentView.frame.size.width - self.arrowOffset * 2, self.sliderContentView.frame.size.height);
+    NSLog(@"content width %f", self.sliderScrollView.contentSize.width);
+    CGFloat left = self.sliderScrollView.frame.size.width / 2 - self.arrowOffset;
+    CGFloat right = self.sliderScrollView.frame.size.width / 2 + self.arrowOffset;
+    self.sliderScrollView.contentInset = UIEdgeInsetsMake(0.0, left, 0.0, right);
+
+    self.calculator = [[Calculator alloc] initWithContentLen:self.sliderScrollView.contentSize.width
+                                                    frameLen:self.sliderScrollView.frame.size.width
+                                              trailingDeadOffset:self.trailingDeadOffset
+                                                 leadingDeadOffset:self.leadingDeadOffset
+                                                    minValue:self.minValue
+                                                    maxValue:self.maxValue
+                                               minValidValue:self.minValidValue
+                                               maxValidValue:self.maxValidValue];
+
     [self.sliderScrollView setContentOffset:CGPointMake(-self.sliderScrollView.frame.size.width / 2 + self.arrowOffset, 0)];
 }
 
-
--(void)viewDidLayoutSubviews {
-    
-    self.sliderScrollView.contentSize = CGSizeMake(self.sliderContentView.frame.size.width - self.arrowOffset * 2, self.sliderContentView.frame.size.height);
-    self.sliderScrollView.contentInset = UIEdgeInsetsMake(0.0, self.sliderScrollView.frame.size.width / 2 - self.arrowOffset, 0.0, self.sliderScrollView.frame.size.width / 2 + self.arrowOffset);
-}
 
 - (NSString *)metricsActivityIdentifier {
     return @"Slidey";
@@ -94,9 +105,9 @@
     });
 }
 
--(void)setValueFromScrollview {
+-(void)sendValueFromScrollview {
 
-    [self.valueHandler userSetValue:[self targetValueForScrollviewPosition]];
+    [self.valueHandler userSetValue:[self.calculator targetValueForScrollviewPosition:self.sliderScrollView.contentOffset.x]];
 }
 
 
@@ -128,59 +139,41 @@
     
     if (!decelerate) {
         
-        [self setValueFromScrollview];
+        [self sendValueFromScrollview];
     }
 }
 
 
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     
-    [self setValueFromScrollview];
+    [self sendValueFromScrollview];
 }
 
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
 
-    NSLog(@"contentOffset.x %f", self.sliderScrollView.contentOffset.x);
-    if (self.sliderScrollView.contentOffset.x - self.arrowOffset * 2 <= -self.sliderScrollView.frame.size.width / 2) {
+    if (scrollView.contentOffset.x <= self.arrowOffset * 2 - scrollView.frame.size.width / 2) {
         
         self.targetValueLabel.hidden = YES;
         self.unitsLabel.hidden = YES;
         self.lowValueImageView.hidden = NO;
-
     } else {
         
         self.targetValueLabel.hidden = NO;
         self.unitsLabel.hidden = NO;
         self.lowValueImageView.hidden = YES;
-        self.targetValueLabel.text = [self.valuePrinter printValue:[self targetValueForScrollviewPosition]];
     }
-    
-    float percent = [self percentageOfScrollWithinValueRange];
+
+    NSString* value = [self.valuePrinter printValue:[self.calculator targetValueForScrollviewPosition:scrollView.contentOffset.x]];
+    self.targetValueLabel.text = value;
+    float percent = [self.calculator percentageOfScrollWithinValueRange:scrollView.contentOffset.x];
+
+    NSLog(@"contentOffset.x %f, value: %@, percent: %f", scrollView.contentOffset.x, value, percent);
+
     UIColor* colour = [self colorForPercentage:percent];
     self.sliderColorBackgroundView.backgroundColor = colour;
     self.targetValueLabel.textColor = colour;
     self.unitsLabel.textColor = colour;
-
-}
-
-
--(double)targetValueForScrollviewPosition {
-
-    float targetValue = (self.maxValue - self.minValue) * [self percentageOfScrollWithinValueRange] + self.minValue;
-    
-    if (targetValue > self.maxValue) {
-        
-        targetValue = self.maxValue;
-    }
-    
-    return targetValue;
-}
-
-
--(float) percentageOfScrollWithinValueRange {
-    
-    return (self.sliderScrollView.contentOffset.x - self.endSpaceOffset + self.sliderScrollView.frame.size.width / 2) / (self.sliderScrollView.contentSize.width - self.contentWidthOffset);
 }
 
 @end

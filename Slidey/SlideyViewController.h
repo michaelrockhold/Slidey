@@ -43,10 +43,14 @@
 @property (nonatomic, copy) NSString * _Nullable taskPrompt;
 @property (nonatomic, copy) NSString * _Nullable units;
 
-@property double endSpaceOffset;
-@property double contentWidthOffset;
+@property double trailingDeadOffset;
+@property double leadingDeadOffset;
+
 @property double maxValue;
 @property double minValue;
+
+@property double maxValidValue;
+@property double minValidValue;
 
 @property (nonatomic, strong) UIImage* _Nullable lowValueImage;
 @property (nonatomic, strong) UIImage* _Nullable sliderImage;
