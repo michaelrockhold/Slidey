@@ -10,10 +10,8 @@ import Foundation
 
 @objc class Calculator: NSObject {
 
-    let frameLen: CGFloat
+    @objc let zeroBasis: CGFloat
     let contentLen: CGFloat
-    let trailingDeadOffset: CGFloat
-    let leadingDeadOffset: CGFloat
 
     let minValue: CGFloat
     let maxValue: CGFloat
@@ -21,18 +19,15 @@ import Foundation
     let minValidValue: CGFloat
     let maxValidValue: CGFloat
 
-    @objc init(contentLen: CGFloat, frameLen: CGFloat,
-               trailingDeadOffset: CGFloat,
-               leadingDeadOffset: CGFloat,
+    @objc init(contentLen: CGFloat,
+               zeroBasis: CGFloat,
                minValue: CGFloat,
                maxValue: CGFloat,
                minValidValue: CGFloat,
                maxValidValue: CGFloat) {
 
         self.contentLen = contentLen
-        self.frameLen = frameLen
-        self.trailingDeadOffset = trailingDeadOffset
-        self.leadingDeadOffset = leadingDeadOffset
+        self.zeroBasis = zeroBasis
 
         self.minValue = minValue
         self.maxValue = maxValue
@@ -51,9 +46,16 @@ import Foundation
         return targetValue > self.maxValue ? self.maxValue : targetValue
     }
 
+    func positionIsValidValue(_ x: CGFloat) -> Bool {
+
+        let targetValue = self.targetValueForScrollviewPosition(x)
+
+        return targetValue >= self.minValidValue && targetValue <= self.maxValidValue
+    }
+
 
     func percentageOfScrollWithinValueRange(_ x: CGFloat) -> CGFloat {
 
-        return (x - self.trailingDeadOffset + self.frameLen / 2) / (self.contentLen - self.leadingDeadOffset);
+        return (x - self.zeroBasis) / self.contentLen
     }
 }

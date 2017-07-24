@@ -38,9 +38,11 @@ func englishInches(_ value: Double) -> String {
         fraction = "error"
     }
 
-    var intStr = ""
-    if Int(intpart) > 0 {
-        intStr = "\(Int(intpart))"
+    let ints = Int(intpart)
+    var intStr = "\(ints)"
+
+    if ints == 0 && fraction != "" {
+        intStr = ""
     }
 
     return "\(intStr)\(fraction)"
@@ -111,7 +113,7 @@ class ViewController: UIViewController, HSCSliderValueHandler, HSCSliderValuePri
                     switch self.measurementSystem {
                     case .english:
                         slidey.units = "inches"
-                        slidey.minValue = 0.25
+                        slidey.minValue = 0.0
                         slidey.maxValue = 4.0
                         slidey.sliderImage = #imageLiteral(resourceName: "numberline")
 

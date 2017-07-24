@@ -27,7 +27,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *lowValueImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *arrowMaskImageView;
 
-@property (nonatomic) float arrowOffset;
+@property (nonatomic) float halfArrowWidth;
 
 // Set as hidden via storyboard.  Make visible to aid with debugging.
 @property (weak, nonatomic) IBOutlet UILabel *actualTargetValueLabel;
@@ -64,7 +64,7 @@
     self.unitsLabel.hidden = YES;
     self.lowValueImageView.hidden = NO;
 
-    self.arrowOffset = self.arrowMaskImageView.frame.size.height;
+    self.halfArrowWidth = self.arrowMaskImageView.frame.size.height;
 
     [self.metricsRecorder startActivity:[self metricsActivityIdentifier]];
     // [self.dataWarehouse recordUITrackingEvent:[[UITrackingData alloc] initWithType:UITrackingEventType_VIEW_MANUAL_TEMP]];
@@ -75,22 +75,21 @@
 
     [super viewDidAppear:animated];
 
-    self.sliderScrollView.contentSize = CGSizeMake(self.sliderContentView.frame.size.width - self.arrowOffset * 2, self.sliderContentView.frame.size.height);
+    self.sliderScrollView.contentSize = CGSizeMake(self.sliderContentView.frame.size.width - self.halfArrowWidth * 2, self.sliderContentView.frame.size.height);
     NSLog(@"content width %f", self.sliderScrollView.contentSize.width);
-    CGFloat left = self.sliderScrollView.frame.size.width / 2 - self.arrowOffset;
-    CGFloat right = self.sliderScrollView.frame.size.width / 2 + self.arrowOffset;
+    CGFloat left = self.sliderScrollView.frame.size.width / 2 - self.halfArrowWidth;
+    CGFloat right = self.sliderScrollView.frame.size.width / 2 + self.halfArrowWidth;
     self.sliderScrollView.contentInset = UIEdgeInsetsMake(0.0, left, 0.0, right);
 
     self.calculator = [[Calculator alloc] initWithContentLen:self.sliderScrollView.contentSize.width
-                                                    frameLen:self.sliderScrollView.frame.size.width
-                                              trailingDeadOffset:self.trailingDeadOffset
-                                                 leadingDeadOffset:self.leadingDeadOffset
+                                                    zeroBasis:-self.sliderScrollView.frame.size.width / 2 + self.halfArrowWidth
                                                     minValue:self.minValue
                                                     maxValue:self.maxValue
                                                minValidValue:self.minValidValue
                                                maxValidValue:self.maxValidValue];
 
-    [self.sliderScrollView setContentOffset:CGPointMake(-self.sliderScrollView.frame.size.width / 2 + self.arrowOffset, 0)];
+    NSLog(@"offsetting content to zeroBasis = %f", self.calculator.zeroBasis);
+    [self.sliderScrollView setContentOffset:CGPointMake(self.calculator.zeroBasis, 0)];
 }
 
 
@@ -152,7 +151,9 @@
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
 
-    if (scrollView.contentOffset.x <= self.arrowOffset * 2 - scrollView.frame.size.width / 2) {
+    CGFloat currentSetting = scrollView.contentOffset.x;
+
+    if (currentSetting <= self.calculator.zeroBasis) {
         
         self.targetValueLabel.hidden = YES;
         self.unitsLabel.hidden = YES;
@@ -164,9 +165,9 @@
         self.lowValueImageView.hidden = YES;
     }
 
-    NSString* value = [self.valuePrinter printValue:[self.calculator targetValueForScrollviewPosition:scrollView.contentOffset.x]];
+    NSString* value = [self.valuePrinter printValue:[self.calculator targetValueForScrollviewPosition:currentSetting]];
     self.targetValueLabel.text = value;
-    float percent = [self.calculator percentageOfScrollWithinValueRange:scrollView.contentOffset.x];
+    float percent = [self.calculator percentageOfScrollWithinValueRange:currentSetting];
 
     NSLog(@"contentOffset.x %f, value: %@, percent: %f", scrollView.contentOffset.x, value, percent);
 
