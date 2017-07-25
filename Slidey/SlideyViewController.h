@@ -31,6 +31,7 @@
 
 @end
 
+
 @interface SlideyViewController : UIViewController {
     
 }
@@ -43,19 +44,18 @@
 @property (nonatomic, copy) NSString * _Nullable taskPrompt;
 @property (nonatomic, copy) NSString * _Nullable units;
 
-@property double trailingDeadOffset;
-@property double leadingDeadOffset;
-
 @property double maxValue;
 @property double minValue;
 
 @property double maxValidValue;
 @property double minValidValue;
 
+@property double leadingDeadZoneOffset;
+@property double trailingDeadZoneOffset;
+
 @property (nonatomic, strong) UIImage* _Nullable lowValueImage;
 @property (nonatomic, strong) UIImage* _Nullable sliderImage;
 @property (nonatomic, strong) UIImage * _Nullable sliderColorRangeImage;
-
 
 @property (nonatomic, weak) id<HSCMetricsRecorder> _Nullable metricsRecorder;
 @property (nonnull, nonatomic, strong) id<HSCLogger> logger;

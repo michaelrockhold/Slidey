@@ -78,8 +78,8 @@ class ViewController: UIViewController, HSCSliderValueHandler, HSCSliderValuePri
                 slidey.valuePrinter = self
 
                 // these could really just be constants hard-coded into Slidey, just need slider images to accommodate this
-                slidey.trailingDeadOffset = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad) ? 125 : 75
-                slidey.leadingDeadOffset = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad) ? 200 : 125
+                slidey.leadingDeadZoneOffset = 28
+                slidey.trailingDeadZoneOffset = 28
 
                 // In a real application, we'd have configuration and value-printing handled by a delegate of some kind.
                 // Here, a nested switch statement is OK. Ish.

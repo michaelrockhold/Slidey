@@ -49,7 +49,7 @@
 
 
 -(void)viewWillAppear:(BOOL)animated {
-    
+
     [super viewWillAppear:animated];
 
     self.titleLabel.text = self.taskTitle;
@@ -82,11 +82,14 @@
     self.sliderScrollView.contentInset = UIEdgeInsetsMake(0.0, left, 0.0, right);
 
     self.calculator = [[Calculator alloc] initWithContentLen:self.sliderScrollView.contentSize.width
-                                                    zeroBasis:-self.sliderScrollView.frame.size.width / 2 + self.halfArrowWidth
+                                                   zeroBasis:-self.sliderScrollView.frame.size.width / 2 + self.halfArrowWidth
                                                     minValue:self.minValue
                                                     maxValue:self.maxValue
                                                minValidValue:self.minValidValue
-                                               maxValidValue:self.maxValidValue];
+                                               maxValidValue:self.maxValidValue
+                                       leadingDeadZoneOffset:self.leadingDeadZoneOffset
+                                      trailingDeadZoneOffset:self.trailingDeadZoneOffset
+                       ];
 
     NSLog(@"offsetting content to zeroBasis = %f", self.calculator.zeroBasis);
     [self.sliderScrollView setContentOffset:CGPointMake(self.calculator.zeroBasis, 0)];
@@ -111,23 +114,23 @@
 
 
 - (UIColor*)colorForPercentage:(float)percentage {
-    
+
     if (percentage < 0) {
         percentage = 0;
     } else if (percentage >= 1) {
         percentage = 0.99999;
     }
-    
+
     CFDataRef pixelData = CGDataProviderCopyData(CGImageGetDataProvider(self.sliderColorRangeImage.CGImage));
     const UInt8* data = CFDataGetBytePtr(pixelData);
     int pixelInfo = (int)(self.sliderColorRangeImage.size.width * percentage ) * 4; // 4 bytes per pixel
-    
+
     UInt8 red = data[pixelInfo];
     UInt8 green = data[pixelInfo + 1];
     UInt8 blue = data[pixelInfo + 2];
     UInt8 alpha = data[pixelInfo +3];
     CFRelease(pixelData);
-    
+
     return [UIColor colorWithRed:red/255.0f green:green/255.0f blue:blue/255.0f alpha:alpha/255.0f];
 }
 
@@ -135,16 +138,16 @@
 #pragma mark - Scrollview Delegate
 
 -(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-    
+
     if (!decelerate) {
-        
+
         [self sendValueFromScrollview];
     }
 }
 
 
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    
+
     [self sendValueFromScrollview];
 }
 
@@ -153,23 +156,24 @@
 
     CGFloat currentSetting = scrollView.contentOffset.x;
 
-    if (currentSetting <= self.calculator.zeroBasis) {
-        
+    CGFloat value = [self.calculator targetValueForScrollviewPosition:currentSetting];
+
+    if (value < 0.0) {
+
         self.targetValueLabel.hidden = YES;
         self.unitsLabel.hidden = YES;
         self.lowValueImageView.hidden = NO;
     } else {
-        
+
         self.targetValueLabel.hidden = NO;
         self.unitsLabel.hidden = NO;
         self.lowValueImageView.hidden = YES;
+
+        NSString* valueStr = [self.valuePrinter printValue:value];
+        self.targetValueLabel.text = valueStr;
     }
 
-    NSString* value = [self.valuePrinter printValue:[self.calculator targetValueForScrollviewPosition:currentSetting]];
-    self.targetValueLabel.text = value;
     float percent = [self.calculator percentageOfScrollWithinValueRange:currentSetting];
-
-    NSLog(@"contentOffset.x %f, value: %@, percent: %f", scrollView.contentOffset.x, value, percent);
 
     UIColor* colour = [self colorForPercentage:percent];
     self.sliderColorBackgroundView.backgroundColor = colour;
