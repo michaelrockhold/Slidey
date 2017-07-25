@@ -52,12 +52,11 @@
 
     [super viewWillAppear:animated];
 
-    self.titleLabel.text = self.taskTitle;
-    self.promptLabel.text = self.taskPrompt;
-    self.unitsLabel.text = self.units;
+    self.titleLabel.text = self.valueHandler.taskTitle;
+    self.promptLabel.text = self.valueHandler.taskPrompt;
 
-    self.lowValueImageView.image = self.lowValueImage;
-    self.sliderImageView.image = self.sliderImage;
+    self.lowValueImageView.image = self.valueHandler.lowValueImage;
+    self.sliderImageView.image = self.valueHandler.sliderImage;
     self.sliderImageWidthConstraint.constant = self.sliderImageView.image.size.width;
 
     self.targetValueLabel.hidden = YES;
@@ -66,7 +65,7 @@
 
     self.halfArrowWidth = self.arrowMaskImageView.frame.size.height;
 
-    [self.metricsRecorder startActivity:[self metricsActivityIdentifier]];
+    [self.valueHandler.metricsRecorder startActivity:[self metricsActivityIdentifier]];
     // [self.dataWarehouse recordUITrackingEvent:[[UITrackingData alloc] initWithType:UITrackingEventType_VIEW_MANUAL_TEMP]];
 }
 
@@ -81,15 +80,8 @@
     CGFloat right = self.sliderScrollView.frame.size.width / 2 + self.halfArrowWidth;
     self.sliderScrollView.contentInset = UIEdgeInsetsMake(0.0, left, 0.0, right);
 
-    self.calculator = [[Calculator alloc] initWithContentLen:self.sliderScrollView.contentSize.width
-                                                   zeroBasis:-self.sliderScrollView.frame.size.width / 2 + self.halfArrowWidth
-                                                    minValue:self.minValue
-                                                    maxValue:self.maxValue
-                                               minValidValue:self.minValidValue
-                                               maxValidValue:self.maxValidValue
-                                       leadingDeadZoneOffset:self.leadingDeadZoneOffset
-                                      trailingDeadZoneOffset:self.trailingDeadZoneOffset
-                       ];
+    self.calculator = [self.valueHandler makeNewCalculator:self.sliderScrollView.contentSize.width
+                                                 zeroBasis:-self.sliderScrollView.frame.size.width / 2 + self.halfArrowWidth ];
 
     NSLog(@"offsetting content to zeroBasis = %f", self.calculator.zeroBasis);
     [self.sliderScrollView setContentOffset:CGPointMake(self.calculator.zeroBasis, 0)];
@@ -100,12 +92,6 @@
     return @"Slidey";
 }
 
--(void)setUnits:(NSString *)units {
-    _units = [units copy];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        self.unitsLabel.text = _units;
-    });
-}
 
 -(void)sendValueFromScrollview {
 
@@ -121,9 +107,9 @@
         percentage = 0.99999;
     }
 
-    CFDataRef pixelData = CGDataProviderCopyData(CGImageGetDataProvider(self.sliderColorRangeImage.CGImage));
+    CFDataRef pixelData = CGDataProviderCopyData(CGImageGetDataProvider(self.valueHandler.sliderColorRangeImage.CGImage));
     const UInt8* data = CFDataGetBytePtr(pixelData);
-    int pixelInfo = (int)(self.sliderColorRangeImage.size.width * percentage ) * 4; // 4 bytes per pixel
+    int pixelInfo = (int)(self.valueHandler.sliderColorRangeImage.size.width * percentage ) * 4; // 4 bytes per pixel
 
     UInt8 red = data[pixelInfo];
     UInt8 green = data[pixelInfo + 1];
@@ -154,9 +140,7 @@
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
 
-    CGFloat currentSetting = scrollView.contentOffset.x;
-
-    CGFloat value = [self.calculator targetValueForScrollviewPosition:currentSetting];
+    CGFloat value = [self.calculator targetValueForScrollviewPosition:scrollView.contentOffset.x];
 
     if (value < 0.0) {
 
@@ -169,11 +153,12 @@
         self.unitsLabel.hidden = NO;
         self.lowValueImageView.hidden = YES;
 
-        NSString* valueStr = [self.valuePrinter printValue:value];
-        self.targetValueLabel.text = valueStr;
+        NSArray<NSString*>* valueStrs = [self.valueHandler formatValue:value];
+        self.targetValueLabel.text = valueStrs[0];
+        self.unitsLabel.text = valueStrs[1];
     }
 
-    float percent = [self.calculator percentageOfScrollWithinValueRange:currentSetting];
+    float percent = [self.calculator percentageOfScrollWithinValueRange:scrollView.contentOffset.x];
 
     UIColor* colour = [self colorForPercentage:percent];
     self.sliderColorBackgroundView.backgroundColor = colour;

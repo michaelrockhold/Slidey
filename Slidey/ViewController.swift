@@ -48,7 +48,31 @@ func englishInches(_ value: Double) -> String {
     return "\(intStr)\(fraction)"
 }
 
-class ViewController: UIViewController, HSCSliderValueHandler, HSCSliderValuePrinter {
+class ViewController: UIViewController, HSCSliderValueHandler {
+
+    // MARK: HSCSliderValueHandler implementation
+
+    var taskTitle: String?
+    var taskPrompt: String?
+
+    var lowValueImage: UIImage?
+    var sliderImage: UIImage?
+    var sliderColorRangeImage: UIImage?
+
+    var metricsRecorder: HSCMetricsRecorder?
+    var logger: HSCLogger? = nil
+
+    // MARK: geometry and metrics
+    var maxValue: CGFloat = 0.0
+    var minValue: CGFloat = 0.0
+
+    var minValidValue: CGFloat = 0.0
+    var maxValidValue: CGFloat = 0.0
+
+    var leadingDeadZoneOffset: CGFloat = 0.0
+    var trailingDeadZoneOffset: CGFloat = 0.0
+
+    // MARK: Other stuff
 
     enum SliderTopic {
         case temperature
@@ -59,14 +83,71 @@ class ViewController: UIViewController, HSCSliderValueHandler, HSCSliderValuePri
         case metric
     }
 
+    
     var slideyViewController: SlideyViewController? = nil
-
     let topic = SliderTopic.thickness
     let measurementSystem = SliderMeasurementSystem.english
 
+
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+
+        super.init(coder: aDecoder)
+    }
+
     override func viewDidLoad() {
+
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+
+        // Configure all the SlideyViewController parameters
+
+        self.leadingDeadZoneOffset = 28
+        self.trailingDeadZoneOffset = 28
+
+        // In a real application, we'd have configuration and value-printing handled by a delegate of some kind.
+        // Here, a nested switch statement is OK. Ish.
+        switch self.topic {
+        case .temperature:
+            self.taskTitle = "How hot is your burner?"
+            self.taskPrompt = "Adjust the temperature manually."
+            self.lowValueImage = #imageLiteral(resourceName: "lowTemperatureIcon")
+            self.sliderColorRangeImage = UIImage(named: "temperatureColorRange")
+
+
+            switch self.measurementSystem {
+            case .english:
+                self.minValue = 65.0
+                self.maxValue = 500.0
+                self.sliderImage = #imageLiteral(resourceName: "temperatureSliderF")
+
+            case .metric:
+                self.minValue = 18.0
+                self.maxValue = 260.0
+                self.sliderImage = #imageLiteral(resourceName: "temperatureSliderC")
+            }
+
+        case .thickness:
+            self.taskTitle = "How thick is your steak?"
+            self.taskPrompt = "Place your steak on a flat surface and measure the thickest part. It's important to measure accurately so your Cue can determine how long to cook your steak."
+            self.lowValueImage = #imageLiteral(resourceName: "thickness")
+            self.sliderColorRangeImage = UIImage(named: "thicknessColorRange")
+
+            switch self.measurementSystem {
+            case .english:
+                self.minValue = 0.0
+                self.maxValue = 4.0
+                self.sliderImage = #imageLiteral(resourceName: "numberline")
+
+            case .metric:
+                self.minValue = 0.5
+                self.maxValue = 10.0
+                self.sliderImage = #imageLiteral(resourceName: "thicknessSliderCM")
+            }
+        }
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -75,83 +156,46 @@ class ViewController: UIViewController, HSCSliderValueHandler, HSCSliderValuePri
 
             if let slidey = self.slideyViewController {
                 slidey.valueHandler = self
-                slidey.valuePrinter = self
-
-                // these could really just be constants hard-coded into Slidey, just need slider images to accommodate this
-                slidey.leadingDeadZoneOffset = 28
-                slidey.trailingDeadZoneOffset = 28
-
-                // In a real application, we'd have configuration and value-printing handled by a delegate of some kind.
-                // Here, a nested switch statement is OK. Ish.
-                switch self.topic {
-                case .temperature:
-                    slidey.taskTitle = "How hot is your burner?"
-                    slidey.taskPrompt = "Adjust the temperature manually."
-                    slidey.lowValueImage = #imageLiteral(resourceName: "lowTemperatureIcon")
-                    slidey.sliderColorRangeImage = UIImage(named: "temperatureColorRange")
-                    slidey.units = "" // don't need to spell it out
-
-
-                    switch self.measurementSystem {
-                    case .english:
-                        slidey.minValue = 65.0
-                        slidey.maxValue = 500.0
-                        slidey.sliderImage = #imageLiteral(resourceName: "temperatureSliderF")
-
-                    case .metric:
-                        slidey.minValue = 18.0
-                        slidey.maxValue = 260.0
-                        slidey.sliderImage = #imageLiteral(resourceName: "temperatureSliderC")
-                    }
-
-                case .thickness:
-                    slidey.taskTitle = "How thick is your steak?"
-                    slidey.taskPrompt = "Place your steak on a flat surface and measure the thickest part. It's important to measure accurately so your Cue can determine how long to cook your steak."
-                    slidey.lowValueImage = #imageLiteral(resourceName: "thickness")
-                    slidey.sliderColorRangeImage = UIImage(named: "thicknessColorRange")
-
-                    switch self.measurementSystem {
-                    case .english:
-                        slidey.units = "inches"
-                        slidey.minValue = 0.0
-                        slidey.maxValue = 4.0
-                        slidey.sliderImage = #imageLiteral(resourceName: "numberline")
-
-                    case .metric:
-                        slidey.units = "cm"
-                        slidey.minValue = 0.5
-                        slidey.maxValue = 10.0
-                        slidey.sliderImage = #imageLiteral(resourceName: "thicknessSliderCM")
-                    }
-                }
             }
         }
     }
+
+    func makeNewCalculator(_ contentLen: CGFloat, zeroBasis: CGFloat) -> Calculator {
+
+        return Calculator(contentLen: contentLen,
+                          zeroBasis: zeroBasis,
+                          minValue: self.minValue,
+                          maxValue: self.maxValue,
+                          minValidValue: self.minValidValue,
+                          maxValidValue: self.maxValidValue,
+                          leadingDeadZoneOffset: self.leadingDeadZoneOffset,
+                          trailingDeadZoneOffset: self.trailingDeadZoneOffset)
+    }
+
 
     func userSetValue(_ value: Double) {
         print("Setting value to \(value)")
     }
 
-    func printValue(_ value: Double) -> String {
+    func formatValue(_ value: Double) -> [String] {
         switch self.topic {
         case .temperature:
             switch self.measurementSystem {
             case .english:
-                return "\(lround(value))"
+                return ["\(lround(value))", ""]
 
             case .metric:
-                return "\(lround(value))"
+                return ["\(lround(value))", ""]
             }
 
         case .thickness:
             switch self.measurementSystem {
             case .english:
                 let ei = englishInches(value)
-                self.slideyViewController!.units = ei == "1" ? "inch" : "inches"
-                return ei
+                return [ei, ei == "1" ? "inch" : "inches"]
 
             case .metric:
-                return "\(round( value * 10 ) / 10)"
+                return ["\(round( value * 10 ) / 10)", "cm"]
             }
         }
     }

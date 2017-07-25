@@ -19,46 +19,34 @@
 
 @end
 
+@class Calculator;
+
 @protocol HSCSliderValueHandler <NSObject>
-
-- (void)userSetValue:(double)value;
-
-@end
-
-@protocol HSCSliderValuePrinter <NSObject>
-
-- (NSString* _Nonnull)printValue:(double)value;
-
-@end
-
-
-@interface SlideyViewController : UIViewController {
-    
-}
-
-
-@property (nonatomic, weak) id <HSCSliderValueHandler> _Nullable valueHandler;
-@property (nonatomic, weak) id <HSCSliderValuePrinter> _Nullable valuePrinter;
 
 @property (nonatomic, copy) NSString * _Nullable taskTitle;
 @property (nonatomic, copy) NSString * _Nullable taskPrompt;
-@property (nonatomic, copy) NSString * _Nullable units;
-
-@property double maxValue;
-@property double minValue;
-
-@property double maxValidValue;
-@property double minValidValue;
-
-@property double leadingDeadZoneOffset;
-@property double trailingDeadZoneOffset;
 
 @property (nonatomic, strong) UIImage* _Nullable lowValueImage;
 @property (nonatomic, strong) UIImage* _Nullable sliderImage;
 @property (nonatomic, strong) UIImage * _Nullable sliderColorRangeImage;
 
 @property (nonatomic, weak) id<HSCMetricsRecorder> _Nullable metricsRecorder;
-@property (nonnull, nonatomic, strong) id<HSCLogger> logger;
+@property (nonatomic, strong) id<HSCLogger> _Nullable logger;
+
+- (void)userSetValue:(double)value;
+
+- (NSArray<NSString*>* _Nonnull)formatValue:(double)value;
+
+- (Calculator * _Nonnull )makeNewCalculator:(CGFloat)contentLen zeroBasis:(CGFloat)zeroBasis;
+
+@end
+
+
+@interface SlideyViewController : UIViewController {
+}
+
+
+@property (nonatomic, weak) id <HSCSliderValueHandler> _Nullable valueHandler;
 
 // subclasses should override the following
 - (NSString * _Nonnull)metricsActivityIdentifier;
