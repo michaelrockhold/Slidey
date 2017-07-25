@@ -31,6 +31,10 @@ enum TargetValueClass {
     let leadingDeadZoneOffset: CGFloat
     let trailingDeadZoneOffset: CGFloat
 
+    let _contentDistance: CGFloat
+    let _pct_offset: CGFloat
+    let _pct_denominator: CGFloat
+
     @objc init(contentLen: CGFloat,
                zeroBasis: CGFloat,
                minValue: CGFloat,
@@ -52,6 +56,10 @@ enum TargetValueClass {
         self.leadingDeadZoneOffset = leadingDeadZoneOffset
         self.trailingDeadZoneOffset = trailingDeadZoneOffset
 
+        self._contentDistance = self.maxValue - self.minValue
+        self._pct_offset = self.zeroBasis + self.leadingDeadZoneOffset
+        self._pct_denominator = (self.contentLen - self.leadingDeadZoneOffset) - (self.contentLen - self.trailingDeadZoneOffset)
+
         super.init()
     }
 
@@ -65,14 +73,13 @@ enum TargetValueClass {
             return -1
         }
 
-        let targetValue = (self.maxValue - self.minValue) * self.percentOfValueRangeForContentOffset(x) + self.minValue;
-
-        return targetValue > self.maxValue ? self.maxValue : targetValue
+        let value = self._contentDistance * self.percentOfValueRangeForContentOffset(x) + self.minValue
+        return value > self.maxValue ? self.maxValue : value
     }
 
     func contentOffsetForValue(_ v: CGFloat) -> CGFloat {
 
-        return (v - self.minValue) * (self.contentLen - self.leadingDeadZoneOffset - self.trailingDeadZoneOffset) / (self.maxValue - self.minValue) + self.zeroBasis + self.leadingDeadZoneOffset;
+        return (v - self.minValue) * self._pct_denominator / self._contentDistance + self._pct_offset
     }
 
     func positionIsValidValue(_ x: CGFloat) -> Bool {
@@ -85,9 +92,6 @@ enum TargetValueClass {
 
     func percentOfValueRangeForContentOffset(_ x: CGFloat) -> CGFloat {
 
-        let numerator = x - self.zeroBasis - self.leadingDeadZoneOffset
-        let denominator = (self.contentLen - self.leadingDeadZoneOffset) - (self.contentLen - self.trailingDeadZoneOffset)
-
-        return numerator / denominator
+        return (x - self._pct_offset) / self._pct_denominator
     }
 }
