@@ -140,6 +140,8 @@ class ViewController: UIViewController, HSCSliderValueHandler {
             case .english:
                 self.minValue = 0.0
                 self.maxValue = 4.0
+                self.minValidValue = 1.5
+                self.maxValidValue = 3.0
                 self.sliderImage = #imageLiteral(resourceName: "numberline")
 
             case .metric:

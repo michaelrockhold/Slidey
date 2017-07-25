@@ -70,6 +70,11 @@ enum TargetValueClass {
         return targetValue > self.maxValue ? self.maxValue : targetValue
     }
 
+    func scrollViewPositionForTargetValue(_ v: CGFloat) -> CGFloat {
+
+        return (v - self.minValue) * (self.contentLen - self.leadingDeadZoneOffset - self.trailingDeadZoneOffset) / (self.maxValue - self.minValue) + self.zeroBasis + self.leadingDeadZoneOffset;
+    }
+
     func positionIsValidValue(_ x: CGFloat) -> Bool {
 
         let targetValue = self.targetValueForScrollviewPosition(x)

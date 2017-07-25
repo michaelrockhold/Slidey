@@ -158,7 +158,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
-                                        <color key="backgroundColor" red="0.83700445710000004" green="1" blue="0.83531536360000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstItem="bGE-KR-cmR" firstAttribute="top" secondItem="Ihn-hz-bJA" secondAttribute="top" id="0ZC-kI-btv"/>
                                             <constraint firstAttribute="height" secondItem="bGE-KR-cmR" secondAttribute="height" constant="20" id="0uI-mz-ff6"/>
@@ -182,6 +182,13 @@
                                                                 <rect key="frame" x="0.0" y="0.0" width="2048" height="93"/>
                                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             </view>
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Yhu-bJ-fEC" userLabel="slider-valid-colour-view">
+                                                                <rect key="frame" x="0.0" y="0.0" width="2" height="93"/>
+                                                                <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="width" constant="2" id="6uG-yY-0lp"/>
+                                                                </constraints>
+                                                            </view>
                                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="numberline" translatesAutoresizingMaskIntoConstraints="NO" id="aEN-31-Sds" userLabel="slider-background-imageView">
                                                                 <rect key="frame" x="0.0" y="0.0" width="2048" height="124"/>
                                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -190,14 +197,17 @@
                                                                 </constraints>
                                                             </imageView>
                                                         </subviews>
-                                                        <color key="backgroundColor" red="1" green="0.91034438750000002" blue="0.92978365490000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                         <constraints>
                                                             <constraint firstItem="40x-rM-aiH" firstAttribute="leading" secondItem="iyF-Og-842" secondAttribute="leading" id="0em-Il-FAa"/>
                                                             <constraint firstItem="aEN-31-Sds" firstAttribute="leading" secondItem="iyF-Og-842" secondAttribute="leading" id="49u-09-tbj"/>
                                                             <constraint firstAttribute="height" secondItem="aEN-31-Sds" secondAttribute="height" id="6RQ-lL-qS1"/>
                                                             <constraint firstAttribute="trailing" secondItem="aEN-31-Sds" secondAttribute="trailing" id="CIk-72-3yQ"/>
+                                                            <constraint firstItem="Yhu-bJ-fEC" firstAttribute="leading" secondItem="iyF-Og-842" secondAttribute="leading" id="Dhz-Lc-ddA"/>
                                                             <constraint firstItem="40x-rM-aiH" firstAttribute="width" secondItem="iyF-Og-842" secondAttribute="width" id="F24-eD-TCg"/>
+                                                            <constraint firstItem="Yhu-bJ-fEC" firstAttribute="height" secondItem="40x-rM-aiH" secondAttribute="height" id="jKB-hb-NWq"/>
                                                             <constraint firstAttribute="bottom" secondItem="aEN-31-Sds" secondAttribute="bottom" id="lUg-u0-ipL"/>
+                                                            <constraint firstItem="Yhu-bJ-fEC" firstAttribute="top" secondItem="iyF-Og-842" secondAttribute="top" id="mzt-9Q-gaP"/>
                                                             <constraint firstItem="aEN-31-Sds" firstAttribute="top" secondItem="iyF-Og-842" secondAttribute="top" id="vUW-3y-VSL"/>
                                                             <constraint firstItem="40x-rM-aiH" firstAttribute="height" secondItem="aEN-31-Sds" secondAttribute="height" multiplier="3:4" id="wRp-D7-rn5"/>
                                                             <constraint firstItem="40x-rM-aiH" firstAttribute="top" secondItem="iyF-Og-842" secondAttribute="top" id="xPh-x8-hT9"/>
@@ -221,7 +231,7 @@
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             </imageView>
                                         </subviews>
-                                        <color key="backgroundColor" red="1" green="0.98105766413606477" blue="0.60920716004568953" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstItem="w2e-CB-MQD" firstAttribute="trailing" secondItem="lx7-Q1-fUf" secondAttribute="trailing" id="5hD-l3-RZ3"/>
                                             <constraint firstItem="Dvf-Z0-n4B" firstAttribute="top" secondItem="lx7-Q1-fUf" secondAttribute="top" id="CHR-1w-jh2"/>
@@ -255,9 +265,12 @@
                         <outlet property="sliderContentView" destination="iyF-Og-842" id="PMA-KT-z0c"/>
                         <outlet property="sliderImageView" destination="aEN-31-Sds" id="fFV-NZ-Qbb"/>
                         <outlet property="sliderScrollView" destination="w2e-CB-MQD" id="lbg-7m-yxi"/>
+                        <outlet property="sliderValidRangeColorView" destination="Yhu-bJ-fEC" id="Q1s-uv-pEF"/>
                         <outlet property="targetValueLabel" destination="Kip-yS-hii" id="Pgu-2C-AI1"/>
                         <outlet property="titleLabel" destination="Agm-iM-ULG" id="9Q4-9K-3ei"/>
                         <outlet property="unitsLabel" destination="Dg1-up-241" id="RR1-To-bIU"/>
+                        <outlet property="validColourViewLeadingConstraint" destination="Dhz-Lc-ddA" id="r4T-LY-jRV"/>
+                        <outlet property="validColourViewWidthConstraint" destination="6uG-yY-0lp" id="Yx2-oe-iHh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JnE-VG-tvv" userLabel="First Responder" sceneMemberID="firstResponder"/>

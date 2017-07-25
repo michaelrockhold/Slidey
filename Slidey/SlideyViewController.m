@@ -24,6 +24,11 @@
 @property (weak, nonatomic) IBOutlet UILabel *unitsLabel;
 @property (weak, nonatomic) IBOutlet UIView *sliderContentView;
 @property (weak, nonatomic) IBOutlet UIView *sliderColorBackgroundView;
+
+@property (weak, nonatomic) IBOutlet UIView *sliderValidRangeColorView;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *validColourViewLeadingConstraint;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *validColourViewWidthConstraint;
+
 @property (weak, nonatomic) IBOutlet UIImageView *lowValueImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *arrowMaskImageView;
 
@@ -74,8 +79,9 @@
 
     [super viewDidAppear:animated];
 
-    self.sliderScrollView.contentSize = CGSizeMake(self.sliderContentView.frame.size.width - self.halfArrowWidth * 2, self.sliderContentView.frame.size.height);
-    NSLog(@"content width %f", self.sliderScrollView.contentSize.width);
+    self.sliderScrollView.contentSize = CGSizeMake(self.sliderContentView.frame.size.width - self.halfArrowWidth * 2,
+                                                   self.sliderContentView.frame.size.height);
+
     CGFloat left = self.sliderScrollView.frame.size.width / 2 - self.halfArrowWidth;
     CGFloat right = self.sliderScrollView.frame.size.width / 2 + self.halfArrowWidth;
     self.sliderScrollView.contentInset = UIEdgeInsetsMake(0.0, left, 0.0, right);
@@ -83,7 +89,12 @@
     self.calculator = [self.valueHandler makeNewCalculator:self.sliderScrollView.contentSize.width
                                                  zeroBasis:-self.sliderScrollView.frame.size.width / 2 + self.halfArrowWidth ];
 
-    NSLog(@"offsetting content to zeroBasis = %f", self.calculator.zeroBasis);
+    CGFloat minValidOffset = [self.calculator scrollViewPositionForTargetValue:self.valueHandler.minValidValue];
+    CGFloat maxValidOffset = [self.calculator scrollViewPositionForTargetValue:self.valueHandler.maxValidValue];
+
+    self.validColourViewLeadingConstraint.constant = minValidOffset;
+    self.validColourViewWidthConstraint.constant = maxValidOffset - minValidOffset;
+
     [self.sliderScrollView setContentOffset:CGPointMake(self.calculator.zeroBasis, 0)];
 }
 
