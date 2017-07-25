@@ -56,35 +56,38 @@ enum TargetValueClass {
     }
 
 
-    func targetValueForScrollviewPosition(_ x: CGFloat) -> CGFloat {
+    func valueForContentOffset(_ x: CGFloat) -> CGFloat {
 
-        if x - self.zeroBasis < self.leadingDeadZoneOffset {
+        if self.leadingDeadZoneOffset > 0 && x - self.zeroBasis < self.leadingDeadZoneOffset {
             return -1
         }
-        else if self.trailingDeadZoneOffset > 0 && x - self.zeroBasis >= (self.contentLen - self.trailingDeadZoneOffset) {
+        else if self.trailingDeadZoneOffset > 0 && x - self.zeroBasis >= self.trailingDeadZoneOffset {
             return -1
         }
 
-        let targetValue = (self.maxValue - self.minValue) * self.percentageOfScrollWithinValueRange(x) + self.minValue;
+        let targetValue = (self.maxValue - self.minValue) * self.percentOfValueRangeForContentOffset(x) + self.minValue;
 
         return targetValue > self.maxValue ? self.maxValue : targetValue
     }
 
-    func scrollViewPositionForTargetValue(_ v: CGFloat) -> CGFloat {
+    func contentOffsetForValue(_ v: CGFloat) -> CGFloat {
 
         return (v - self.minValue) * (self.contentLen - self.leadingDeadZoneOffset - self.trailingDeadZoneOffset) / (self.maxValue - self.minValue) + self.zeroBasis + self.leadingDeadZoneOffset;
     }
 
     func positionIsValidValue(_ x: CGFloat) -> Bool {
 
-        let targetValue = self.targetValueForScrollviewPosition(x)
+        let targetValue = self.valueForContentOffset(x)
 
         return targetValue >= self.minValidValue && targetValue <= self.maxValidValue
     }
 
 
-    func percentageOfScrollWithinValueRange(_ x: CGFloat) -> CGFloat {
+    func percentOfValueRangeForContentOffset(_ x: CGFloat) -> CGFloat {
 
-        return (x - self.zeroBasis - self.leadingDeadZoneOffset) / (self.contentLen - self.leadingDeadZoneOffset - self.trailingDeadZoneOffset)
+        let numerator = x - self.zeroBasis - self.leadingDeadZoneOffset
+        let denominator = (self.contentLen - self.leadingDeadZoneOffset) - (self.contentLen - self.trailingDeadZoneOffset)
+
+        return numerator / denominator
     }
 }

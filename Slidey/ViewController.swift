@@ -81,12 +81,15 @@ class ViewController: UIViewController, HSCSliderValueHandler {
     enum SliderMeasurementSystem {
         case english
         case metric
+        case test
     }
 
     
     var slideyViewController: SlideyViewController? = nil
+
+
     let topic = SliderTopic.thickness
-    let measurementSystem = SliderMeasurementSystem.english
+    let measurementSystem = SliderMeasurementSystem.test
 
 
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -105,8 +108,8 @@ class ViewController: UIViewController, HSCSliderValueHandler {
 
         // Configure all the SlideyViewController parameters
 
-        self.leadingDeadZoneOffset = 28
-        self.trailingDeadZoneOffset = 28
+        self.leadingDeadZoneOffset = 17.33
+        self.trailingDeadZoneOffset = 16.67
 
         // In a real application, we'd have configuration and value-printing handled by a delegate of some kind.
         // Here, a nested switch statement is OK. Ish.
@@ -128,6 +131,17 @@ class ViewController: UIViewController, HSCSliderValueHandler {
                 self.minValue = 18.0
                 self.maxValue = 260.0
                 self.sliderImage = #imageLiteral(resourceName: "temperatureSliderC")
+
+            case .test:
+                self.leadingDeadZoneOffset = 800 / 3
+                self.trailingDeadZoneOffset = 5600.1 / 3
+
+                self.minValue = 0.0
+                self.maxValue = 120.0
+                self.minValidValue = 25.0
+                self.maxValidValue = 97.0
+
+                self.sliderImage = #imageLiteral(resourceName: "numberline")
             }
 
         case .thickness:
@@ -138,16 +152,33 @@ class ViewController: UIViewController, HSCSliderValueHandler {
 
             switch self.measurementSystem {
             case .english:
-                self.minValue = 0.0
+                self.minValue = 0.25
                 self.maxValue = 4.0
-                self.minValidValue = 1.5
+                self.minValidValue = 0.25
                 self.maxValidValue = 3.0
-                self.sliderImage = #imageLiteral(resourceName: "numberline")
+                self.sliderImage = #imageLiteral(resourceName: "thicknessSliderIN")
 
             case .metric:
-                self.minValue = 0.5
-                self.maxValue = 10.0
-                self.sliderImage = #imageLiteral(resourceName: "thicknessSliderCM")
+                self.leadingDeadZoneOffset = 800 / 3
+                self.trailingDeadZoneOffset = 5600.1 / 3
+
+                self.minValue = 1.0
+                self.maxValue = 10
+                self.minValidValue = 25.0
+                self.maxValidValue = 97.0
+
+                //self.sliderImage = thicknessSliderCM
+
+            case .test:
+                self.leadingDeadZoneOffset = 800 / 3
+                self.trailingDeadZoneOffset = 5600.1 / 3
+
+                self.minValue = 0.0
+                self.maxValue = 120.0
+                self.minValidValue = 25.0
+                self.maxValidValue = 97.0
+
+                self.sliderImage = #imageLiteral(resourceName: "numberline")
             }
         }
     }
@@ -188,6 +219,10 @@ class ViewController: UIViewController, HSCSliderValueHandler {
 
             case .metric:
                 return ["\(lround(value))", ""]
+
+            case .test:
+                let numbers = "\(round( value * 10 ) / 10)"
+                return [numbers, numbers == "1.0" ? "unuo" : "unuecoj"]
             }
 
         case .thickness:
@@ -198,6 +233,10 @@ class ViewController: UIViewController, HSCSliderValueHandler {
 
             case .metric:
                 return ["\(round( value * 10 ) / 10)", "cm"]
+
+            case .test:
+                let numbers = "\(round( value * 10 ) / 10)"
+                return [numbers, numbers == "1.0" ? "unuo" : "unuecoj"]
             }
         }
     }

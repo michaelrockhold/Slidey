@@ -87,15 +87,15 @@
     self.sliderScrollView.contentInset = UIEdgeInsetsMake(0.0, left, 0.0, right);
 
     self.calculator = [self.valueHandler makeNewCalculator:self.sliderScrollView.contentSize.width
-                                                 zeroBasis:-self.sliderScrollView.frame.size.width / 2 + self.halfArrowWidth ];
+                                                 zeroBasis:-(self.sliderScrollView.frame.size.width / 2)];
 
-    CGFloat minValidOffset = [self.calculator scrollViewPositionForTargetValue:self.valueHandler.minValidValue];
-    CGFloat maxValidOffset = [self.calculator scrollViewPositionForTargetValue:self.valueHandler.maxValidValue];
+    CGFloat minValidOffset = [self.calculator contentOffsetForValue:self.valueHandler.minValidValue];
+    CGFloat maxValidOffset = [self.calculator contentOffsetForValue:self.valueHandler.maxValidValue];
 
     self.validColourViewLeadingConstraint.constant = minValidOffset;
     self.validColourViewWidthConstraint.constant = maxValidOffset - minValidOffset;
 
-    [self.sliderScrollView setContentOffset:CGPointMake(self.calculator.zeroBasis, 0)];
+    self.sliderScrollView.contentOffset = CGPointMake(self.calculator.zeroBasis + self.halfArrowWidth, 0);
 }
 
 
@@ -106,7 +106,7 @@
 
 -(void)sendValueFromScrollview {
 
-    [self.valueHandler userSetValue:[self.calculator targetValueForScrollviewPosition:self.sliderScrollView.contentOffset.x]];
+    [self.valueHandler userSetValue:[self.calculator valueForContentOffset:self.sliderScrollView.contentOffset.x]];
 }
 
 
@@ -151,7 +151,7 @@
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
 
-    CGFloat value = [self.calculator targetValueForScrollviewPosition:scrollView.contentOffset.x];
+    CGFloat value = [self.calculator valueForContentOffset:scrollView.contentOffset.x];
 
     if (value < 0.0) {
 
@@ -169,7 +169,7 @@
         self.unitsLabel.text = valueStrs[1];
     }
 
-    float percent = [self.calculator percentageOfScrollWithinValueRange:scrollView.contentOffset.x];
+    float percent = [self.calculator percentOfValueRangeForContentOffset:scrollView.contentOffset.x];
 
     UIColor* colour = [self colorForPercentage:percent];
     self.sliderColorBackgroundView.backgroundColor = colour;
