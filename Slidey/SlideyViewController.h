@@ -33,6 +33,8 @@
 @property (nonatomic) CGFloat minValidValue;
 @property (nonatomic) CGFloat maxValidValue;
 
+@property (nonatomic) CGFloat tickIncrement;
+
 @property (nonatomic, weak) id<HSCMetricsRecorder> _Nullable metricsRecorder;
 @property (nonatomic, strong) id<HSCLogger> _Nullable logger;
 

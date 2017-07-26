@@ -72,6 +72,8 @@ class ViewController: UIViewController, HSCSliderValueHandler {
     var leadingDeadZoneOffset: CGFloat = 0.0
     var trailingDeadZoneOffset: CGFloat = 0.0
 
+    var tickIncrement: CGFloat = 0.0
+
     // MARK: Other stuff
 
     enum SliderTopic {
@@ -89,7 +91,7 @@ class ViewController: UIViewController, HSCSliderValueHandler {
 
 
     let topic = SliderTopic.thickness
-    let measurementSystem = SliderMeasurementSystem.test
+    let measurementSystem = SliderMeasurementSystem.english
 
 
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -152,10 +154,14 @@ class ViewController: UIViewController, HSCSliderValueHandler {
 
             switch self.measurementSystem {
             case .english:
+                self.leadingDeadZoneOffset = 8
+                self.trailingDeadZoneOffset = 8
+
                 self.minValue = 0.25
                 self.maxValue = 4.0
                 self.minValidValue = 0.25
                 self.maxValidValue = 3.0
+                self.tickIncrement = 0.25
                 self.sliderImage = #imageLiteral(resourceName: "thicknessSliderIN")
 
             case .metric:
@@ -177,6 +183,8 @@ class ViewController: UIViewController, HSCSliderValueHandler {
                 self.maxValue = 120.0
                 self.minValidValue = 25.0
                 self.maxValidValue = 97.0
+
+                self.tickIncrement = 0.5
 
                 self.sliderImage = #imageLiteral(resourceName: "numberline")
             }
@@ -241,14 +249,3 @@ class ViewController: UIViewController, HSCSliderValueHandler {
         }
     }
 }
-
-
-
-//#define END_SPACE_OFFSET_F ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 125 : 75)
-//#define END_SPACE_OFFSET_C 0
-
-//#define CONTENT_WIDTH_OFFSET_F ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 200 : 125)
-//#define CONTENT_WIDTH_OFFSET_C ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 100 : 60)
-
-//#define MIN_TEMP_F 65.0
-//#define MAX_TEMP_F 500.0

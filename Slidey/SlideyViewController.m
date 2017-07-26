@@ -14,7 +14,6 @@
 @property (nonatomic, strong) Calculator* _Nullable calculator;
 
 @property (nonatomic, weak) IBOutlet UIImageView *sliderImageView;
-@property (nonatomic, weak) IBOutlet NSLayoutConstraint *sliderImageWidthConstraint;
 @property (weak, nonatomic) IBOutlet UIScrollView *sliderScrollView;
 
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
@@ -33,9 +32,6 @@
 @property (weak, nonatomic) IBOutlet UIImageView *arrowMaskImageView;
 
 @property (nonatomic) float halfArrowWidth;
-
-// Set as hidden via storyboard.  Make visible to aid with debugging.
-@property (weak, nonatomic) IBOutlet UILabel *actualTargetValueLabel;
 
 @end
 
@@ -62,7 +58,6 @@
 
     self.lowValueImageView.image = self.valueHandler.lowValueImage;
     self.sliderImageView.image = self.valueHandler.sliderImage;
-    self.sliderImageWidthConstraint.constant = self.sliderImageView.image.size.width;
 
     self.targetValueLabel.hidden = YES;
     self.unitsLabel.hidden = YES;
@@ -89,6 +84,7 @@
     self.calculator = [self.valueHandler makeNewCalculator:self.sliderScrollView.contentSize.width
                                                  zeroBasis:-(self.sliderScrollView.frame.size.width / 2)];
 
+    // TODO: move this into calculator
     CGFloat minValidOffset = [self.calculator contentOffsetForValue:self.valueHandler.minValidValue];
     CGFloat maxValidOffset = [self.calculator contentOffsetForValue:self.valueHandler.maxValidValue];
 
@@ -131,6 +127,18 @@
     return [UIColor colorWithRed:red/255.0f green:green/255.0f blue:blue/255.0f alpha:alpha/255.0f];
 }
 
+- (void)roundToIncrement:(UIScrollView *)scrollView {
+
+    CGFloat m = self.valueHandler.tickIncrement;
+    if (m <= 0)
+        return;
+
+    CGFloat x = [self.calculator valueForContentOffset:scrollView.contentOffset.x];
+    if (x > 0) {
+
+        scrollView.contentOffset = CGPointMake([self.calculator contentOffsetForValue:roundf(x / m) * m], 0);
+    }
+}
 
 #pragma mark - Scrollview Delegate
 
@@ -138,12 +146,16 @@
 
     if (!decelerate) {
 
+        [self roundToIncrement:scrollView];
+
         [self sendValueFromScrollview];
     }
 }
 
 
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+
+    [self roundToIncrement:scrollView];
 
     [self sendValueFromScrollview];
 }
@@ -169,9 +181,7 @@
         self.unitsLabel.text = valueStrs[1];
     }
 
-    float percent = [self.calculator percentOfValueRangeForContentOffset:scrollView.contentOffset.x];
-
-    UIColor* colour = [self colorForPercentage:percent];
+    UIColor* colour = [self colorForPercentage:[self.calculator percentOfValueRangeForContentOffset:scrollView.contentOffset.x]];
     self.sliderColorBackgroundView.backgroundColor = colour;
     self.targetValueLabel.textColor = colour;
     self.unitsLabel.textColor = colour;
